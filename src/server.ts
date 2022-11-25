@@ -24,6 +24,7 @@ import { connectDatabase } from "./database/connect";
 import { uploadRouter } from "./routes/upload";
 import { userRouter } from "./routes/user";
 import { watchRouter } from "./routes/watch";
+import { streamRouter } from "./routes/stream";
 
 const app = express();
 const server = http.createServer(app);
@@ -38,6 +39,7 @@ app.use("/v1/auth", authRouter);
 app.use("/v1/user", userRouter);
 app.use("/v1/upload", uploadRouter);
 app.use("/v1/watch", watchRouter);
+app.use("/v1/stream", streamRouter);
 
 app.get("/", (_, res) => res.json({ message: "Welcome to EasyStreaming API", version: serverConfig.version }));
 
@@ -46,7 +48,7 @@ io.on("connection", handleSocketIO);
 connectDatabase
   .then(() => {
     console.log("[DB] Connection to MongoDB successful");
-    // mediaServer.run();
+    mediaServer.run();
     server.listen(serverConfig.port, () => {
       const date = new Date().toLocaleDateString();
       const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });

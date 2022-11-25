@@ -3,6 +3,24 @@ import { Request, Response } from "express";
 import { Video } from "../schema/Video";
 import { handleServerError } from "../lib/server-error";
 
+const fetchAllVideos = async (req: Request, res: Response) => {
+  try {
+    const videos = await Video.find({});
+    return res.json({ videos });
+  } catch (error) {
+    handleServerError(error, res);
+  }
+};
+
+const fetchVideoByID = async (req: Request, res: Response) => {
+  try {
+    const video = await Video.findById(req.params.id);
+    return res.json({ video });
+  } catch (error) {
+    handleServerError(error, res);
+  }
+};
+
 const watchVideo = async (req: Request, res: Response) => {
   try {
     const range = req.headers.range;
@@ -48,4 +66,4 @@ const watchVideo = async (req: Request, res: Response) => {
 
 const watchLiveVideo = (req: Request, res: Response) => {};
 
-export { watchVideo, watchLiveVideo };
+export { watchVideo, watchLiveVideo, fetchAllVideos, fetchVideoByID };

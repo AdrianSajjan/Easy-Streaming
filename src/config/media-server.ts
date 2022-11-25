@@ -8,7 +8,7 @@ export const mediaServerConfig = {
   },
   http: {
     port: process.env.MEDIA_PORT ? parseInt(process.env.MEDIA_PORT) : 8000,
-    mediaroot: "./media",
+    mediaroot: "./static/upload",
     allow_origin: "*",
   },
   trans: {
