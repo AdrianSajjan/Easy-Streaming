@@ -11,6 +11,9 @@ const VideoSchema = new mongoose.Schema({
   videoURL: {
     type: String,
   },
+  mimetype: {
+    type: String,
+  },
   description: {
     type: String,
   },
@@ -25,12 +28,12 @@ const VideoSchema = new mongoose.Schema({
   },
   postedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
   },
 });
 
 VideoSchema.set("timestamps", true);
 
-const Video = mongoose.model("Video", VideoSchema, "video");
+const Video = mongoose.model("video", VideoSchema, "Video");
 
 export { Video };

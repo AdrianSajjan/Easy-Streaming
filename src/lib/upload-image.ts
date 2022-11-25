@@ -1,6 +1,7 @@
 import path from "path";
 import multer from "multer";
 import * as uuid from "uuid";
+import fs from "fs";
 
 export const uploadImage = multer({
   storage: multer.diskStorage({
@@ -9,8 +10,8 @@ export const uploadImage = multer({
       callback(null, filename);
     },
     destination: (req, _file, callback) => {
-      const user = req.user.id;
-      const destination = `static/upload/${user}/`;
+      const destination = `static/profile/`;
+      if (!fs.existsSync(destination)) fs.mkdirSync(destination, { recursive: true });
       callback(null, destination);
     },
   }),

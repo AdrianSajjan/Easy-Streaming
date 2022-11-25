@@ -15,8 +15,7 @@ const login = async (req: Request, res: Response) => {
     if (!match) return res.status(400).json({ status: 400, error: "Login Error", message: "Provided credentials are not valid" });
     const payload = { id: user.id };
     const [accessToken, refreshToken] = [issueAccessToken(payload), issueRefreshToken(payload)];
-    const { password: p, ...rest } = user.toObject();
-    return res.json({ user: rest, accessToken, refreshToken });
+    return res.json({ accessToken, refreshToken });
   } catch (error) {
     handleServerError(error, res);
   }
@@ -32,8 +31,7 @@ const register = async (req: Request, res: Response) => {
     const user = await User.create({ name, emailAddress, password: hashedPassword });
     const payload = { id: user.id };
     const [accessToken, refreshToken] = [issueAccessToken(payload), issueRefreshToken(payload)];
-    const { password: p, ...rest } = user.toObject();
-    return res.json({ user: rest, accessToken, refreshToken });
+    return res.json({ accessToken, refreshToken });
   } catch (error) {
     handleServerError(error, res);
   }
@@ -42,7 +40,7 @@ const register = async (req: Request, res: Response) => {
 const session = async (req: Request, res: Response) => {
   try {
     const id = req.user.id;
-    const user = await User.findById(id);
+    const user = await User.findById(id).select("-password");
     if (!user) return res.status(400).json({ status: 401, message: "Session expired or not valid." });
     return res.json({ user });
   } catch (error) {

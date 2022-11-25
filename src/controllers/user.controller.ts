@@ -6,10 +6,9 @@ import { handleServerError } from "../lib/server-error";
 
 const uploadProfilePicture = async (req: Request, res: Response) => {
   try {
-    const file = req.file;
+    const file = req.file!;
     const id = req.user.id;
-    if (!file) return res.status(400).json({ status: 400, message: "Coudn't upload file" });
-    const user = await User.findByIdAndUpdate(id, { $set: { profilePicture: file.destination } });
+    const user = await User.findByIdAndUpdate(id, { $set: { profilePicture: file.path } }, { new: true }).select("-password");
     return res.json({ user });
   } catch (error) {
     handleServerError(error, res);

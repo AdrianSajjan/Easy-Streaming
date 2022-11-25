@@ -32,6 +32,6 @@ UserSchema.set("timestamps", true);
 UserSchema.set("toJSON", { virtuals: true });
 UserSchema.set("toObject", { virtuals: true });
 
-const User = model("User", UserSchema, "user");
+const User = model("user", UserSchema, "User");
 
 export { User };

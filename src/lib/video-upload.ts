@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import multer from "multer";
 import * as uuid from "uuid";
@@ -10,7 +11,8 @@ export const uploadVideo = multer({
     },
     destination: (req, _file, callback) => {
       const user = req.user.id;
-      const destination = `media/upload/${user}/`;
+      const destination = `static/upload/${user}/`;
+      if (!fs.existsSync(destination)) fs.mkdirSync(destination, { recursive: true });
       callback(null, destination);
     },
   }),
